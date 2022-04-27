@@ -134,7 +134,7 @@ func modifyCSV(transactions []Transaction) []Transaction {
 
 		// Descripcion
 		if strings.Contains(transactions[i].Descripcion, "ABONO INTERESES") {
-			transactions[i].Descripcion = "ABONO"
+			transactions[i].Descripcion = "INCOME, INTERESTS"
 		} else if strings.Contains(transactions[i].Descripcion, "GENIUS SPORTS") {
 			transactions[i].Descripcion = "SALARY"
 		} else if strings.Contains(transactions[i].Descripcion, "BODYTECH") {
@@ -155,6 +155,9 @@ func modifyCSV(transactions []Transaction) []Transaction {
 		} else if strings.Contains(transactions[i].Descripcion, "Amazon Prime") || strings.Contains(transactions[i].Descripcion, "STAR PLUS") {
 			transactions[i].Referencia = transactions[i].Descripcion
 			transactions[i].Descripcion = "ENTRENTENIMIENTO"
+		}else if strings.Contains(transactions[i].Oficina,"SERVICIOS ELCTR.") {
+			transactions[i].Referencia = transactions[i].Descripcion
+			transactions[i].Descripcion = "SHOPPING " + transactions[i].Referencia 
 		}
 
 		//Referencia
@@ -192,7 +195,7 @@ func removeIndex(s []Transaction, index int) []Transaction {
 func writeCSV(transactions []Transaction) {
 
 	headers := []string{"FECHA", "OFICINA", "DESCRIPCION", "REFERENCIA", "VALOR", "MONEDA"}
-	resultFileName := "result_transactions1.csv"
+	resultFileName := "EXTRACTO_ENERO.csv"
 	f, err := os.Create(resultFileName)
 
 	if err != nil {
